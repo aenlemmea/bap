@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Listing } from '../../../core/services/listing';
 import { Booking } from '../../../core/services/booking';
@@ -9,7 +9,8 @@ import { ListingResponse, CreateBookingRequest } from '../../../shared/models';
 @Component({
   selector: 'app-listing-detail',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,
+            RouterLink],
   templateUrl: './listing-detail.html',
   styleUrl: './listing-detail.css'
 })

@@ -49,4 +49,11 @@ public class ListingController {
       throws IOException {
     return imageService.uploadListingImage(listingId, file, isPrimary);
   }
+
+  @GetMapping("/{listingId}")
+  public ListingResponseDTO getListingById(
+          @PathVariable Long listingId
+  ) {
+    return listingService.getListingById(listingId);
+  }
 }
