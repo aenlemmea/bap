@@ -1,0 +1,32 @@
+<div class="auth-card">
+  <h2>Create an Account</h2>
+
+  @if (errorMessage()) {
+  <div class="error-box">{{ errorMessage() }}</div>
+  }
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="fullName">Full Name</label>
+      <input id="fullName" type="text" formControlName="fullName" placeholder="Jane Doe" />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input id="email" type="email" formControlName="email" placeholder="you@example.com" />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" />
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid" class="btn-primary">
+      Create Account
+    </button>
+  </form>
+
+  <p class="switch-link">
+    Already have an account? <a routerLink="/login">Log in here</a>
+  </p>
+</div>

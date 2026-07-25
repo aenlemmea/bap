@@ -1,0 +1,19 @@
+<nav class="navbar">
+  <div class="nav-brand">
+    <a routerLink="/listings">PropertyFinder</a>
+  </div>
+
+  <div class="nav-links">
+    <a routerLink="/listings" routerLinkActive="active">Listings</a>
+
+    @if (authService.isAuthenticated()) {
+    <span class="user-badge">
+        {{ authService.currentUser()?.email }} ({{ authService.getUserRole() }})
+      </span>
+    <button class="btn-logout" (click)="onLogout()">Logout</button>
+    } @else {
+    <a routerLink="/login" routerLinkActive="active">Login</a>
+    <a routerLink="/register" routerLinkActive="active" class="btn-register">Register</a>
+    }
+  </div>
+</nav>

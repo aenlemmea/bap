@@ -1,0 +1,24 @@
+<div class="container">
+  <h2>Available Properties</h2>
+
+  @if (isLoading()) {
+  <p class="status-msg">Loading listings...</p>
+  } @else if (errorMessage()) {
+  <p class="error-msg">{{ errorMessage() }}</p>
+  } @else {
+  <div class="listing-grid">
+    @for (item of listings(); track item.id) {
+    <div class="listing-card">
+      <div class="card-body">
+        <h3>{{ item.title }}</h3>
+<!--        <p class="available">{{ item.available }}</p>-->
+        <p class="price">${{ item.pricePerNight }} <span>/ night</span></p>
+        <a [routerLink]="['/listings', item.id]" class="btn-details">View Details</a>
+      </div>
+    </div>
+    } @empty {
+    <p class="status-msg">No listings found.</p>
+    }
+  </div>
+  }
+</div>
