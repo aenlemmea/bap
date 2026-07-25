@@ -9,12 +9,46 @@
   <div class="listing-grid">
     @for (item of listings(); track item.id) {
     <div class="listing-card">
+
+      @if (item.imageUrls && item.imageUrls.length > 0) {
+      <img
+        [src]="item.imageUrls[0].imageUrl"
+        [alt]="item.title"
+        class="listing-image"
+      />
+      }
+
       <div class="card-body">
         <h3>{{ item.title }}</h3>
-<!--        <p class="available">{{ item.available }}</p>-->
-        <p class="price">${{ item.pricePerNight }} <span>/ night</span></p>
-        <a [routerLink]="['/listings', item.id]" class="btn-details">View Details</a>
+
+        <p class="location">
+          📍 {{ item.location }}
+        </p>
+
+        <p class="description">
+          {{ item.description }}
+        </p>
+
+        <p class="available" [class.unavailable]="!item.available">
+          {{ item.available ? 'Available' : 'Not Available' }}
+        </p>
+
+        <p class="guests">
+          👥 Max Guests: {{ item.maxGuests }}
+        </p>
+
+        <p class="price">
+          ${{ item.pricePerNight }}
+          <span>/ night</span>
+        </p>
+
+        <a
+          [routerLink]="['/listing', item.id]"
+          class="btn-details">
+          View Details
+        </a>
       </div>
+
     </div>
     } @empty {
     <p class="status-msg">No listings found.</p>

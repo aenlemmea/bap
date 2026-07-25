@@ -1,52 +1,127 @@
 <div class="container">
+
   @if (isLoading()) {
-  <p>Loading property details...</p>
+  <p class="status-msg">Loading property details...</p>
+
   } @else if (listing(); as item) {
+
   <div class="detail-container">
+
     <div class="info-section">
+
+      @if (item.imageUrls && item.imageUrls.length > 0) {
+      <img
+        [src]="item.imageUrls[0].imageUrl"
+        [alt]="item.title"
+        class="property-image"
+      />
+      }
+
       <h2>{{ item.title }}</h2>
-      <!-- <p class="location">{{ item.location }}</p> -->
-<!--      <p class="description">{{ item.description }}</p>-->
-      <p class="price-tag">${{ item.pricePerNight }} / night</p>
+
+      <p class="location">
+        📍 {{ item.location }}
+      </p>
+
+      <p class="description">
+        {{ item.description }}
+      </p>
+
+      <p class="guests">
+        👥 Maximum Guests: {{ item.maxGuests }}
+      </p>
+
+      <p class="availability" [class.unavailable]="!item.available">
+        {{ item.available ? 'Available' : 'Not Available' }}
+      </p>
+
+      <p class="price-tag">
+        ${{ item.pricePerNight }} <span>/ night</span>
+      </p>
+
     </div>
 
+
     <div class="booking-section">
+
       <h3>Book this property</h3>
 
       @if (!authService.isAuthenticated()) {
-      <p class="auth-notice">Please <a routerLink="/login">log in</a> to make a booking.</p>
+
+      <p class="auth-notice">
+        Please <a routerLink="/login">log in</a> to make a booking.
+      </p>
+
       } @else {
+
       @if (bookingSuccess()) {
-      <p class="success-msg">Booking confirmed successfully!</p>
-      }
-      @if (bookingError()) {
-      <p class="error-msg">{{ bookingError() }}</p>
+      <p class="success-msg">
+        Booking confirmed successfully!
+      </p>
       }
 
+      @if (bookingError()) {
+      <p class="error-msg">
+        {{ bookingError() }}
+      </p>
+      }
+
+
       <form [formGroup]="bookingForm" (ngSubmit)="onBook()">
+
         <div class="form-group">
           <label for="checkIn">Check-in Date</label>
-          <input id="checkIn" type="date" formControlName="checkInDate" />
+          <input
+            id="checkIn"
+            type="date"
+            formControlName="checkInDate"
+          />
         </div>
+
 
         <div class="form-group">
           <label for="checkOut">Check-out Date</label>
-          <input id="checkOut" type="date" formControlName="checkOutDate" />
+          <input
+            id="checkOut"
+            type="date"
+            formControlName="checkOutDate"
+          />
         </div>
+
 
         <div class="form-group">
-          <label for="guests">Guests</label>
-          <input id="guests" type="number" min="1" formControlName="numberOfGuests" />
+          <label for="guests">Number of Guests</label>
+          <input
+            id="guests"
+            type="number"
+            min="1"
+            [max]="item.maxGuests"
+            formControlName="guestCount"
+          />
         </div>
 
-        <button type="submit" [disabled]="bookingForm.invalid" class="btn-primary">
+
+        <button
+          type="submit"
+          [disabled]="bookingForm.invalid || !item.available"
+          class="btn-primary">
           Confirm Booking
         </button>
+
       </form>
+
       }
+
     </div>
+
   </div>
+
   } @else {
-  <p>Listing not found.</p>
+
+  <p class="status-msg">
+    Listing not found.
+  </p>
+
   }
+
 </div>

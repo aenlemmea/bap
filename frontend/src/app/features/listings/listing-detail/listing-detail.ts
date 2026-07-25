@@ -4,7 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Listing } from '../../../core/services/listing';
 import { Booking } from '../../../core/services/booking';
 import { AuthService } from '../../../core/services/auth.service';
-import { ListingResponse } from '../../../shared/models';
+import { ListingResponse, CreateBookingRequest } from '../../../shared/models';
 
 @Component({
   selector: 'app-listing-detail',
@@ -14,6 +14,7 @@ import { ListingResponse } from '../../../shared/models';
   styleUrl: './listing-detail.css'
 })
 export class ListingDetailComponent implements OnInit {
+
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
@@ -23,19 +24,30 @@ export class ListingDetailComponent implements OnInit {
 
   listing = signal<ListingResponse | null>(null);
   isLoading = signal<boolean>(true);
+
   bookingSuccess = signal<boolean>(false);
   bookingError = signal<string | null>(null);
+
 
   bookingForm = this.fb.group({
     checkInDate: ['', Validators.required],
     checkOutDate: ['', Validators.required],
-    numberOfGuests: [1, [Validators.required, Validators.min(1)]]
+    guestCount: [
+      1,
+      [
+        Validators.required,
+        Validators.min(1)
+      ]
+    ]
   });
+
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
+
     if (idParam) {
       const id = Number(idParam);
+
       this.listingService.getListingById(id).subscribe({
         next: (data) => {
           this.listing.set(data);
@@ -48,25 +60,42 @@ export class ListingDetailComponent implements OnInit {
     }
   }
 
-  onBook(): void {
-    if (this.bookingForm.invalid || !this.listing()) return;
 
-    const payload = {
+  onBook(): void {
+
+    if (this.bookingForm.invalid || !this.listing()) {
+      return;
+    }
+
+    const payload: CreateBookingRequest = {
       listingId: this.listing()!.id,
       checkInDate: this.bookingForm.value.checkInDate!,
       checkOutDate: this.bookingForm.value.checkOutDate!,
-      numberOfGuests: Number(this.bookingForm.value.numberOfGuests)
+      guestCount: Number(this.bookingForm.value.guestCount)
     };
 
+
     this.bookingService.createBooking(payload).subscribe({
+
       next: () => {
         this.bookingSuccess.set(true);
         this.bookingError.set(null);
-        this.bookingForm.reset({ numberOfGuests: 1 });
+
+        this.bookingForm.reset({
+          checkInDate: '',
+          checkOutDate: '',
+          guestCount: 1
+        });
       },
+
+
       error: (err) => {
-        this.bookingError.set(err.error?.message || 'Failed to complete booking.');
+        this.bookingSuccess.set(false);
+        this.bookingError.set(
+          err.error?.message || 'Failed to complete booking.'
+        );
       }
+
     });
   }
 }

@@ -1,0 +1,109 @@
+/* Auth Card Container */
+.auth-card {
+  max-width: 420px;
+  margin: 60px auto;
+  padding: 35px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Heading */
+.auth-card h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #222;
+  font-size: 2rem;
+}
+
+/* Form Group */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  margin-bottom: 7px;
+  font-weight: 600;
+  color: #444;
+}
+
+.form-group input {
+  padding: 12px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #1976d2;
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.15);
+}
+
+/* Primary Button */
+.btn-primary {
+  width: 100%;
+  padding: 13px;
+  margin-top: 10px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #1565c0;
+}
+
+.btn-primary:disabled {
+  background: #bdbdbd;
+  cursor: not-allowed;
+}
+
+/* Error Message */
+.error-box {
+  background: #ffebee;
+  color: #c62828;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Login Switch Link */
+.switch-link {
+  text-align: center;
+  margin-top: 20px;
+  color: #555;
+}
+
+.switch-link a {
+  color: #1976d2;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.switch-link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .auth-card {
+    margin: 30px 15px;
+    padding: 25px;
+  }
+
+  .auth-card h2 {
+    font-size: 1.6rem;
+  }
+}
