@@ -23,5 +23,8 @@ export interface CreateListingRequest {
 /* Based on PropertyImageResponseDTO */
 export interface PropertyImageResponse {
   id: number;
-  imageUrl: string;
+  listingId: number;
+  filename: string;
+  fileUrl: string;
+  primaryImage: boolean;
 }

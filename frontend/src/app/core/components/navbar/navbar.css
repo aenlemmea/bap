@@ -3,7 +3,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #1976d2;
+  background: #072ac8;
   padding: 15px 40px;
   color: #fff;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
@@ -14,15 +14,24 @@
 .nav-brand a {
   color: #fff;
   text-decoration: none;
-  font-size: 1.7rem;
-  font-weight: bold;
-  transition: opacity 0.3s ease;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  background: linear-gradient(45deg, #ffffff, #ffc600);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  transition: all 0.3s ease;
 }
 
 .nav-brand a:hover {
-  opacity: 0.85;
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 8px rgb(255 198 0));
 }
 
+.nav-brand a:hover::after {
+  width: 100%;
+}
 /* Navigation Links */
 .nav-links {
   display: flex;
@@ -50,7 +59,7 @@
 /* Register Button */
 .btn-register {
   background: #fff;
-  color: #1976d2 !important;
+  color: #1e96fc !important;
   padding: 8px 16px;
   border-radius: 6px;
   font-weight: 600;
@@ -103,6 +112,11 @@
   .btn-register,
   .btn-logout {
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    text-align: center;
   }
 
   .user-badge {

@@ -29,3 +29,7 @@ Angular.
 2. Fully functional `SecurityFilterChain` with route configuration.
 3. CRUD query methods for efficient retrieval using Spring Data JPA.
 4. Automatic price calculation for booked listing.
+
+### Screenshot
+
+![Working](src/main/resources/Working.png)

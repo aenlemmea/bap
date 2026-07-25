@@ -12,12 +12,11 @@
 
       @if (item.imageUrls && item.imageUrls.length > 0) {
       <img
-        [src]="item.imageUrls[0].imageUrl"
+        [src]="'http://localhost:8080' + item.imageUrls[0].fileUrl"
         [alt]="item.title"
-        class="listing-image"
+        class="property-image"
       />
       }
-
       <div class="card-body">
         <h3>{{ item.title }}</h3>
 

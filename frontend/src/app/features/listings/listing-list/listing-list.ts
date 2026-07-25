@@ -47,4 +47,10 @@ export class ListingList implements OnInit {
     });
   }
 
+  readonly imageBaseUrl = 'http://localhost:8080';
+
+  getImageUrl(path: string): string {
+    return `${this.imageBaseUrl}${path}`;
+  }
+
 }
