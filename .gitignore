@@ -5,6 +5,8 @@ AngularPain.md
 
 uploads/
 
+.idea/cool*
+
 frontend/.gemini
 frontend/node_modules
 frontend/.angular
