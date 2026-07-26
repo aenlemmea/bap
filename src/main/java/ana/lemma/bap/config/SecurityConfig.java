@@ -67,6 +67,8 @@ public class SecurityConfig {
                     .permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/v1/images/**")
                     .permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/v2/listings", "/api/v2/listings/**") // Bug
+                    .permitAll()
                     .anyRequest()
                     .authenticated())
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

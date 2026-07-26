@@ -1,12 +1,12 @@
 package ana.lemma.bap.dto;
 
 import ana.lemma.bap.model.BookingStatus;
-import jakarta.validation.constraints.FutureOrPresent;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
+import org.springframework.hateoas.server.core.Relation;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Relation(collectionRelation = "bookings", itemRelation = "booking")
 public record BookingResponseDTO(
         Long id,
         Long listingId,
