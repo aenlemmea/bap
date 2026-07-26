@@ -57,6 +57,8 @@ public class SecurityConfig {
             auth ->
                 auth.requestMatchers("/api/v1/auth/**") // Future
                     .permitAll()
+                    .requestMatchers("/api/v1/me/**")
+                    .permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/v1/listings/**")
                     .permitAll()
                     .requestMatchers("/api/v1/login/**")
@@ -67,7 +69,10 @@ public class SecurityConfig {
                     .permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/v1/images/**")
                     .permitAll()
-                    .requestMatchers(HttpMethod.GET, "/api/v2/listings", "/api/v2/listings/**") // Bug
+                    .requestMatchers(
+                        HttpMethod.GET, "/api/v2/listings", "/api/v2/listings/**") // Bug
+                    .permitAll()
+                    .requestMatchers("/api/v1/images/**")
                     .permitAll()
                     .anyRequest()
                     .authenticated())

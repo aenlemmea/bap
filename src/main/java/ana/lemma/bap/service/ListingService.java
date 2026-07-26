@@ -3,12 +3,15 @@ package ana.lemma.bap.service;
 import ana.lemma.bap.dto.CreateListingRequestDTO;
 import ana.lemma.bap.dto.ListingResponseDTO;
 import ana.lemma.bap.dto.PropertyImageResponseDTO;
+import ana.lemma.bap.dto.UpdateListingDTO;
 import ana.lemma.bap.exception.UnauthorizedActionException;
 import ana.lemma.bap.model.Listing;
 import ana.lemma.bap.model.Role;
 import ana.lemma.bap.model.User;
 import ana.lemma.bap.repository.ListingRepository;
 import java.util.List;
+
+import jakarta.validation.Valid;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,5 +82,15 @@ public class ListingService {
         listingRepository.findById(listingId).orElseThrow(() -> new RuntimeException("Listing not found"));
 
     return toResponseDTO(listing);
+  }
+
+  // TODO
+  public ListingResponseDTO updateListing(Long listingId, @Valid UpdateListingDTO updateListingDTO) {
+      return null;
+  }
+
+  // TODO
+  public void deleteListing(Long listingId) {
+
   }
 }

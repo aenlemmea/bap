@@ -3,14 +3,10 @@ package ana.lemma.bap.controller.v2;
 import ana.lemma.bap.controller.v2.assembler.ListingModelAssembler;
 import ana.lemma.bap.dto.ListingResponseDTO;
 import ana.lemma.bap.service.ListingService;
-import java.util.List;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v2/listings")
@@ -26,14 +22,14 @@ public class ListingControllerV2 {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<EntityModel<ListingResponseDTO>> getListingById(@PathVariable Long id) {
-    ListingResponseDTO listingResponseDTO = listingService.getListingById(id);
-    return ResponseEntity.ok(listingModelAssembler.toModel(listingResponseDTO));
+  @ResponseStatus(HttpStatus.OK)
+  public EntityModel<ListingResponseDTO> getListingById(@PathVariable Long id) {
+    return listingModelAssembler.toModel(listingService.getListingById(id));
   }
 
   @GetMapping
-  public ResponseEntity<CollectionModel<EntityModel<ListingResponseDTO>>> getAllListings() {
-    List<ListingResponseDTO> listingResponseDTOList = listingService.getAvailableListings();
-    return ResponseEntity.ok(listingModelAssembler.toCollectionModel(listingResponseDTOList));
+  @ResponseStatus(HttpStatus.OK)
+  public CollectionModel<EntityModel<ListingResponseDTO>> getAllListings() {
+    return listingModelAssembler.toCollectionModel(listingService.getAvailableListings());
   }
 }

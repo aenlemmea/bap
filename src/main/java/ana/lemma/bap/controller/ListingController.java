@@ -3,6 +3,7 @@ package ana.lemma.bap.controller;
 import ana.lemma.bap.dto.CreateListingRequestDTO;
 import ana.lemma.bap.dto.ListingResponseDTO;
 import ana.lemma.bap.dto.PropertyImageResponseDTO;
+import ana.lemma.bap.dto.UpdateListingDTO;
 import ana.lemma.bap.service.ImageService;
 import ana.lemma.bap.service.ListingService;
 import jakarta.validation.Valid;
@@ -35,12 +36,28 @@ public class ListingController {
   @PreAuthorize("hasAnyRole('HOST', 'ADMIN') and @securityService.isListingOwner(#listingId)")
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public ListingResponseDTO reateListing(
+  public ListingResponseDTO createListing(
       @Valid @RequestBody CreateListingRequestDTO createListingRequestDTO) {
     return listingService.createListing(createListingRequestDTO);
   }
 
   @PreAuthorize("hasRole('ADMIN') or (hasRole('HOST') and @securityService.isListingOwner(#listingId))")
+  @PutMapping("/{listingId}")
+  public ListingResponseDTO updateListing(
+          @PathVariable Long listingId,
+          @Valid @RequestBody UpdateListingDTO updateListingDTO) {
+    return listingService.updateListing(listingId, updateListingDTO);
+  }
+
+  @PreAuthorize("hasRole('ADMIN') or (hasRole('HOST') and @securityService.isListingOwner(#listingId))")
+  @DeleteMapping("/{listingId}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void deleteListing(@PathVariable Long listingId) {
+    listingService.deleteListing(listingId);
+  }
+
+  @PreAuthorize(
+      "hasRole('ADMIN') or (hasRole('HOST') and @securityService.isListingOwner(#listingId))")
   @PostMapping(value = "/{listingId}/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public PropertyImageResponseDTO uploadImage(
       @PathVariable Long listingId,
@@ -51,9 +68,7 @@ public class ListingController {
   }
 
   @GetMapping("/{listingId}")
-  public ListingResponseDTO getListingById(
-          @PathVariable Long listingId
-  ) {
+  public ListingResponseDTO getListingById(@PathVariable Long listingId) {
     return listingService.getListingById(listingId);
   }
 }

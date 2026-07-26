@@ -1,9 +1,6 @@
 package ana.lemma.bap.service;
 
-import ana.lemma.bap.dto.AuthorizeResponseDTO;
-import ana.lemma.bap.dto.AuthorizeServiceResultDTO;
-import ana.lemma.bap.dto.LoginRequestDTO;
-import ana.lemma.bap.dto.RegisterUserRequestDTO;
+import ana.lemma.bap.dto.*;
 import ana.lemma.bap.exception.BookingConflictException;
 import ana.lemma.bap.model.Role;
 import ana.lemma.bap.model.User;
@@ -59,5 +56,15 @@ public class AuthorizeService {
     AuthorizeResponseDTO responseDTO =
         new AuthorizeResponseDTO(user.getFullName(), user.getEmail(), user.getRole().name());
     return new AuthorizeServiceResultDTO(jwtService.generateToken(user), responseDTO);
+  }
+
+  // TODO
+  public UserProfileResponseDTO getCurrentUserProfile() {
+      return null;
+  }
+
+  // TODO
+  public UserProfileResponseDTO updateCurrentUserProfile(UpdateUserProfileDTO dto) {
+      return null;
   }
 }
