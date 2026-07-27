@@ -1,6 +1,7 @@
 <div class="container">
 
   @if (isLoading()) {
+
   <p class="status-msg">Loading property details...</p>
 
   } @else if (listing(); as item) {
@@ -9,9 +10,9 @@
 
     <div class="info-section">
 
-      @if (item.imageUrls && item.imageUrls.length > 0) {
+      @if (item.imageUrls.length > 0) {
       <img
-        [src]="'http://localhost:8080' + item.imageUrls[0].fileUrl"
+        [src]="getImageUrl(item.imageUrls[0].fileUrl)"
         [alt]="item.title"
         class="property-image"
       />
@@ -31,16 +32,18 @@
         👥 Maximum Guests: {{ item.maxGuests }}
       </p>
 
-      <p class="availability" [class.unavailable]="!item.available">
+      <p
+        class="availability"
+        [class.unavailable]="!item.available">
         {{ item.available ? 'Available' : 'Not Available' }}
       </p>
 
       <p class="price-tag">
-        ${{ item.pricePerNight }} <span>/ night</span>
+        ${{ item.pricePerNight }}
+        <span>/ night</span>
       </p>
 
     </div>
-
 
     <div class="booking-section">
 
@@ -66,28 +69,35 @@
       </p>
       }
 
-
-      <form [formGroup]="bookingForm" (ngSubmit)="onBook()">
+      <form
+        [formGroup]="bookingForm"
+        (ngSubmit)="onBook()">
 
         <div class="form-group">
           <label for="checkIn">Check-in Date</label>
           <input
             id="checkIn"
             type="date"
+            [min]="today"
             formControlName="checkInDate"
           />
         </div>
-
 
         <div class="form-group">
           <label for="checkOut">Check-out Date</label>
           <input
             id="checkOut"
             type="date"
+            [min]="bookingForm.value.checkInDate || today"
             formControlName="checkOutDate"
           />
         </div>
 
+        @if (bookingForm.hasError('invalidDateRange')) {
+        <p class="error-msg">
+          Check-out date must be after check-in date.
+        </p>
+        }
 
         <div class="form-group">
           <label for="guests">Number of Guests</label>
@@ -98,14 +108,23 @@
             [max]="item.maxGuests"
             formControlName="guestCount"
           />
-        </div>
 
+          @if (bookingForm.controls.guestCount.hasError('max')) {
+          <p class="error-msg">
+            Maximum allowed guests is {{ item.maxGuests }}.
+          </p>
+          }
+        </div>
 
         <button
           type="submit"
-          [disabled]="bookingForm.invalid || !item.available"
-          class="btn-primary">
-          Confirm Booking
+          class="btn-primary"
+          [disabled]="
+                bookingForm.invalid ||
+                !item.available ||
+                isSubmitting()
+              ">
+          {{ isSubmitting() ? 'Booking...' : 'Confirm Booking' }}
         </button>
 
       </form>

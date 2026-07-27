@@ -20,8 +20,8 @@ public class ListingModelAssembler
     return EntityModel.of(
         listingResponseDTO,
         linkTo(methodOn(ListingControllerV2.class).getListingById(listingResponseDTO.id()))
-            .withSelfRel(),
-        linkTo(methodOn(ListingControllerV2.class).getAllListings()).withRel("listings"));
+            .withSelfRel());
+//            , linkTo(methodOn(ListingControllerV2.class).getAllListings()).withRel("listings"));
   }
 
   @Override
@@ -30,7 +30,7 @@ public class ListingModelAssembler
     CollectionModel<EntityModel<ListingResponseDTO>> collectionModel =
         RepresentationModelAssembler.super.toCollectionModel(listingResponseDTOS);
 
-    return collectionModel.add(
-        linkTo(methodOn(ListingControllerV2.class).getAllListings()).withSelfRel());
+    return collectionModel;
+//            .add(linkTo(methodOn(ListingControllerV2.class).getAllListings()).withSelfRel());
   }
 }

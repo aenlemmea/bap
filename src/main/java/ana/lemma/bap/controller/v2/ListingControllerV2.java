@@ -3,6 +3,7 @@ package ana.lemma.bap.controller.v2;
 import ana.lemma.bap.controller.v2.assembler.ListingModelAssembler;
 import ana.lemma.bap.dto.ListingResponseDTO;
 import ana.lemma.bap.service.ListingService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
@@ -27,9 +28,9 @@ public class ListingControllerV2 {
     return listingModelAssembler.toModel(listingService.getListingById(id));
   }
 
-  @GetMapping
-  @ResponseStatus(HttpStatus.OK)
-  public CollectionModel<EntityModel<ListingResponseDTO>> getAllListings() {
-    return listingModelAssembler.toCollectionModel(listingService.getAvailableListings());
-  }
+//  @GetMapping
+//  @ResponseStatus(HttpStatus.OK)
+//  public CollectionModel<EntityModel<ListingResponseDTO>> getAllListings(Pageable pageable) {
+//    return listingModelAssembler.toCollectionModel(listingService.getAvailableListings(pageable));
+//  }
 }

@@ -1,4 +1,6 @@
 package ana.lemma.bap.dto;
 
-// TODO
-public class UserProfileResponseDTO {}
+import ana.lemma.bap.model.Role;
+
+public record UserProfileResponseDTO(String email, String fullName, Role role
+) {}

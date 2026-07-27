@@ -11,46 +11,61 @@ import { ListingResponse } from '../../../shared/models';
   styleUrl: './listing-list.css',
 })
 export class ListingList implements OnInit {
-
   private readonly listingService = inject(Listing);
 
   listings = signal<ListingResponse[]>([]);
-  isLoading = signal<boolean>(true);
+  isLoading = signal(true);
   errorMessage = signal<string | null>(null);
 
+  // Pagination
+  page = signal(0);
+  size = 10;
+  totalPages = signal(0);
+  totalElements = signal(0);
+
+  readonly imageBaseUrl = 'http://localhost:8080';
 
   ngOnInit(): void {
     this.loadListings();
   }
 
-
-  private loadListings(): void {
-
+  loadListings(): void {
     this.isLoading.set(true);
     this.errorMessage.set(null);
 
-    this.listingService.getAllListings().subscribe({
-
-      next: (data: ListingResponse[]) => {
-        this.listings.set(data);
-        this.isLoading.set(false);
-      },
-
-
-      error: () => {
-        this.errorMessage.set(
-          'Failed to load listings. Please try again later.'
-        );
-        this.isLoading.set(false);
-      }
-
-    });
+    this.listingService
+      .getAllListings(this.page(), this.size)
+      .subscribe({
+        next: (response) => {
+          this.listings.set(response.content);
+          this.totalPages.set(response.totalPages);
+          this.totalElements.set(response.totalElements);
+          this.isLoading.set(false);
+        },
+        error: () => {
+          this.errorMessage.set(
+            'Failed to load listings. Please try again later.'
+          );
+          this.isLoading.set(false);
+        },
+      });
   }
 
-  readonly imageBaseUrl = 'http://localhost:8080';
+  previousPage(): void {
+    if (this.page() > 0) {
+      this.page.update((p) => p - 1);
+      this.loadListings();
+    }
+  }
+
+  nextPage(): void {
+    if (this.page() < this.totalPages() - 1) {
+      this.page.update((p) => p + 1);
+      this.loadListings();
+    }
+  }
 
   getImageUrl(path: string): string {
     return `${this.imageBaseUrl}${path}`;
   }
-
 }

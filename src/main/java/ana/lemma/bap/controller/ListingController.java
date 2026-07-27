@@ -3,12 +3,16 @@ package ana.lemma.bap.controller;
 import ana.lemma.bap.dto.CreateListingRequestDTO;
 import ana.lemma.bap.dto.ListingResponseDTO;
 import ana.lemma.bap.dto.PropertyImageResponseDTO;
-import ana.lemma.bap.dto.UpdateListingDTO;
+import ana.lemma.bap.dto.UpdateListingRequestDTO;
 import ana.lemma.bap.service.ImageService;
 import ana.lemma.bap.service.ListingService;
 import jakarta.validation.Valid;
 import java.io.IOException;
-import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,10 +31,12 @@ public class ListingController {
   }
 
   // TODO Expose searchability, location awareness.
-  // TODO Paginate
+
   @GetMapping
-  public List<ListingResponseDTO> getAllListings() {
-    return listingService.getAvailableListings();
+  public Page<ListingResponseDTO> getAllListings(
+      @PageableDefault(size = 10, page = 0, sort = "createdAt", direction = Sort.Direction.DESC)
+      Pageable pageable) {
+    return listingService.getAvailableListings(pageable);
   }
 
   @PreAuthorize("hasAnyRole('HOST', 'ADMIN') and @securityService.isListingOwner(#listingId)")
@@ -41,15 +47,16 @@ public class ListingController {
     return listingService.createListing(createListingRequestDTO);
   }
 
-  @PreAuthorize("hasRole('ADMIN') or (hasRole('HOST') and @securityService.isListingOwner(#listingId))")
+  @PreAuthorize(
+      "hasRole('ADMIN') or (hasRole('HOST') and @securityService.isListingOwner(#listingId))")
   @PutMapping("/{listingId}")
   public ListingResponseDTO updateListing(
-          @PathVariable Long listingId,
-          @Valid @RequestBody UpdateListingDTO updateListingDTO) {
+      @PathVariable Long listingId, @Valid @RequestBody UpdateListingRequestDTO updateListingDTO) {
     return listingService.updateListing(listingId, updateListingDTO);
   }
 
-  @PreAuthorize("hasRole('ADMIN') or (hasRole('HOST') and @securityService.isListingOwner(#listingId))")
+  @PreAuthorize(
+      "hasRole('ADMIN') or (hasRole('HOST') and @securityService.isListingOwner(#listingId))")
   @DeleteMapping("/{listingId}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteListing(@PathVariable Long listingId) {

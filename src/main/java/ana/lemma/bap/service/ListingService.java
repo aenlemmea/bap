@@ -3,15 +3,18 @@ package ana.lemma.bap.service;
 import ana.lemma.bap.dto.CreateListingRequestDTO;
 import ana.lemma.bap.dto.ListingResponseDTO;
 import ana.lemma.bap.dto.PropertyImageResponseDTO;
-import ana.lemma.bap.dto.UpdateListingDTO;
+import ana.lemma.bap.dto.UpdateListingRequestDTO;
 import ana.lemma.bap.exception.UnauthorizedActionException;
 import ana.lemma.bap.model.Listing;
 import ana.lemma.bap.model.Role;
 import ana.lemma.bap.model.User;
 import ana.lemma.bap.repository.ListingRepository;
+
 import java.util.List;
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +28,8 @@ public class ListingService {
     this.listingRepository = listingRepository;
   }
 
-  public List<ListingResponseDTO> getAvailableListings() {
-    return listingRepository.findByAvailableTrue().stream().map(this::toResponseDTO).toList();
+  public Page<ListingResponseDTO> getAvailableListings(Pageable pageable) {
+    return listingRepository.findByAvailableTrue(pageable).map(this::toResponseDTO);
   }
 
   @Transactional
@@ -85,7 +88,7 @@ public class ListingService {
   }
 
   // TODO
-  public ListingResponseDTO updateListing(Long listingId, @Valid UpdateListingDTO updateListingDTO) {
+  public ListingResponseDTO updateListing(Long listingId, @Valid UpdateListingRequestDTO updateListingDTO) {
       return null;
   }
 
