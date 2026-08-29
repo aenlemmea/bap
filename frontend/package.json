@@ -10,7 +10,7 @@
     "serve:ssr:frontend": "node dist/frontend/server/server.mjs"
   },
   "private": true,
-  "packageManager": "pnpm@11.15.1",
+  "packageManager": "pnpm@11.17.0",
   "dependencies": {
     "@angular/common": "^22.0.0",
     "@angular/compiler": "^22.0.0",
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@angular/build": "^22.0.7",
-    "@angular/cli": "^22.0.7",
+    "@angular/cli": "^21.0.4",
     "@angular/compiler-cli": "^22.0.0",
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
