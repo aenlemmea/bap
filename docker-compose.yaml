@@ -1,14 +1,15 @@
 services:
-  postgres:
-    image: postgres:latest
-    container_name: bap
-    environment:
-      POSTGRES_DB: bap_db
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  backend:
+    build: .
+    container_name: bap-backend
     ports:
-      - "5432:5432"
-    volumes:
-      - bap_data:/var/lib/postgresql/
-volumes:
-  bap_data:
+      - "8080:8080"
+    environment:
+      - DB_URL=${DB_URL}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
+      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
+      - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
